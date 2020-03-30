@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo Application</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div id="app">
+    <div class="container">
+      <h1>Todo Tasks</h1>
+     <table class="table table-striped">
+       <tr>
+         <th>Task Item</th>
+         <th>Created At</th>
+         <th>Completed</th>
+         <th>Actions</th>
+       </tr>
+      <tr v-for="task in tasks" is="task" :task="task">
+      </tr>
+     </table>
+    </div>
+    <div class="text-center"><button @click="addTask()" class="btn btn-primary">Add a new task</button></div>
+  </div>
+  <template id="template-task">
+    <tr>
+      <td>
+        <input v-if="task.editing" v-model="task.todo" class="form-control">
+        </input>
+        <span v-else>
+        {{ task.todo}}
+        </span>
+      </td>
+      <td>
+        <span>{{ task.createdAt }}</span>
+      </td>
+      <td>
+        <span v-if="!task.completed" class="glyphicon glyphicon-pencil"></span>
+        <span v-else class="glyphicon glyphicon-ok"></span>
+      </td>
+      <td>
+        <div v-if="!task.editing" class="btn-group">
+          <button @click="editTask(task)" class="btn btn-default">Edit</button>
+          <button @click="toggleTask(task)" class="btn btn-primary">Done</button>
+          <button @click="deleteTask(task)" class="btn btn-danger">Delete</button>
+        </div>
+        <div v-else class="btn-group">
+          <button v-if="task._id" @click="updateTask(task)" class="btn btn-primary">Update Task</button>
+          <button v-else @click="storeTask(task)" class="btn btn-success">Save New Task</button>
+          <button @click="task.editing=false" class="btn btn-default">Cancel</button>
+        </div>
+      </td>
+    </tr>
+  </template>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1/dist/vue-resource.min.js"></script>
+<script src="index.js" type="text/javascript"></script>
+</html>
